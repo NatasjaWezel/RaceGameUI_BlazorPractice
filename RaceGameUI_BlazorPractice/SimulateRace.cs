@@ -7,18 +7,6 @@ namespace RaceGameUI_BlazorPractice
         private readonly int _trackLength = 100;
         private bool finished = false;
 
-        public SimulateRace()
-        {
-            Random random = new Random();
-            LocalData.hounds = new();
-
-            for (int i = 0; i < 4; i++)
-            {
-                LocalData.hounds.Add(new GreyHound(i, random));
-                Debug.Print("Initializing hound #" + i.ToString());
-            }
-        }
-
         public void CalculateBetResult(int winningDogNumber)
         {
             foreach (var bettor in LocalData.bettors)
@@ -33,6 +21,7 @@ namespace RaceGameUI_BlazorPractice
             foreach (var hound in LocalData.hounds)
             {
                 hound.ResetPosition();
+                this.finished = false;
             }
 
         }

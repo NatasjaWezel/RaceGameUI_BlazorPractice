@@ -27,23 +27,18 @@ namespace RaceGameUI_BlazorPractice
             builder.OpenElement(k++, "g");
             builder.AddAttribute(k++, "fill", "grey");
 
-            Debug.Print("In Render hounds, length hounds: " + LocalData.hounds.Count);
-
-            if (LocalData.hounds.Count == 0)
+            foreach (GreyHound hound in LocalData.hounds)
             {
-                AddRectangle(builder, k, 10, 20);
-                AddRectangle(builder, k, 10, 70);
-                AddRectangle(builder, k, 10, 120);
-                AddRectangle(builder, k, 10, 170);
-            } else
-            {
-                AddRectangle(builder, k, 10 + LocalData.hounds[0].getCurrentPosition() * 8, 20);
-                AddRectangle(builder, k, 10 + LocalData.hounds[1].getCurrentPosition() * 8, 70);
-                AddRectangle(builder, k, 10 + LocalData.hounds[2].getCurrentPosition() * 8, 120);
-                AddRectangle(builder, k, 10 + LocalData.hounds[3].getCurrentPosition() * 8, 170);
+                AddRectangle(builder, k, 10 + hound.getCurrentPosition() * 8, + 50 * hound.GetId() + 20);
             }
 
             builder.CloseElement();
+
+            //foreach (GreyHound hound in LocalData.hounds)
+            //{
+            //    AddText(builder, k, 10, +50 * hound.GetId() + 35);
+            //}
+
         }
 
         public void AddRectangle(RenderTreeBuilder builder, int k, int posX, int posY)
@@ -53,6 +48,14 @@ namespace RaceGameUI_BlazorPractice
             builder.AddAttribute(k++, "y", posY);
             builder.AddAttribute(k++, "width", 40);
             builder.AddAttribute(k++, "height", 20);
+            builder.CloseElement();
+        }
+
+        public void AddText(RenderTreeBuilder builder, int k, int posX, int posY)
+        {
+            builder.OpenElement(k++, "text");
+            builder.AddAttribute(k++, "x", posX);
+            builder.AddAttribute(k++, "y", posY);
             builder.CloseElement();
         }
         

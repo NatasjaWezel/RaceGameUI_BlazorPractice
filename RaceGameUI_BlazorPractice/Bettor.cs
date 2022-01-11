@@ -4,11 +4,12 @@ namespace RaceGameUI_BlazorPractice
 {
     public class Bettor
     {
-        private string _name;
+        private readonly string _name;
+        private readonly int _startCash;
+
         private Bet _myBet;
         private int _cash;
-        private int _startCash;
-
+        
         public Bettor(string name, int cash)
         {
             _name = name;
@@ -61,7 +62,7 @@ namespace RaceGameUI_BlazorPractice
             Random rand = new Random();
             if (this.GetCurrentCash() >= LocalData.MinimumBet)
             {
-                this.PlaceBet(rand.Next(LocalData.MinimumBet, this.GetCurrentCash()), rand.Next(1, 5));
+                this.PlaceBet(rand.Next(LocalData.MinimumBet, this.GetCurrentCash()), rand.Next(1, LocalData.AmountGreyHounds));
                 return true;
             }
 

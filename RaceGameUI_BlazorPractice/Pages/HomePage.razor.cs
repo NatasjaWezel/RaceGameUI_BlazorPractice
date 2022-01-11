@@ -4,18 +4,14 @@ namespace RaceGameUI_BlazorPractice.Pages
 {
     public partial class HomePage
     {
-        public string curPosDog0 = "0";
-        public string curPosDog1 = "0";
-        public string curPosDog2 = "0";
-        public string curPosDog3 = "0";
-
-        SimulateRace simulator;
+        SimulateRace simulator = new SimulateRace(); 
 
         public async void startRace()
         {
-            simulator = new SimulateRace(); 
+            await ResetRace();
             int dogNumber = 0;
 
+            Debug.Print("Now running simulation #" + LocalData.RaceNumber);
             while (!simulator.RaceEnded())
             {
                 await RunRaceStep(dogNumber);
@@ -24,27 +20,27 @@ namespace RaceGameUI_BlazorPractice.Pages
                 dogNumber++;
             }
 
-            int winningDogNumber = (dogNumber - 1) % 4 + 1;
+            int winningDogNumber = (dogNumber - 1) % LocalData.AmountGreyHounds + 1;
             simulator.CalculateBetResult(winningDogNumber);
 
             StateHasChanged();
             LocalData.PaintedDogs.Refresh();
+
+            LocalData.RaceNumber++;
         }
 
         public async Task ResetRace()
         {
             simulator.TakeDogsToStart();
 
+            Debug.Print("Took dogs to the start of the race track.");
+
             await InvokeAsync(StateHasChanged);
         }
 
         public async Task RunRaceStep(int dogNumber)
         {
-            simulator.SimulateStep(dogNumber % 4);
-            curPosDog0 = LocalData.hounds[0].getCurrentPosition().ToString();
-            curPosDog1 = LocalData.hounds[1].getCurrentPosition().ToString();
-            curPosDog2 = LocalData.hounds[2].getCurrentPosition().ToString();
-            curPosDog3 = LocalData.hounds[3].getCurrentPosition().ToString();
+            simulator.SimulateStep(dogNumber % LocalData.AmountGreyHounds);
 
             LocalData.PaintedDogs.Refresh();
             await InvokeAsync(StateHasChanged);

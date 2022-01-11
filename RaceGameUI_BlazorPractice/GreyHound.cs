@@ -2,45 +2,40 @@
 {
     public class GreyHound
     {
-        private int DogNumber;
-        private int InitialPosition = 0;
+        private readonly int _id;
+        private readonly int _initialPosition = 0;
         private int CurrentPosition;
-        private List<int> positions = new List<int>();
 
         // an instance of random
         public Random Randomizer;
 
         public GreyHound(int DogNumer, Random Randomizer)
         {
-            this.DogNumber = DogNumer;
+            _id = DogNumer;
             this.Randomizer = Randomizer;
             
-            CurrentPosition = InitialPosition;
-            positions.Append(InitialPosition);
+            CurrentPosition = _initialPosition;
         }
 
-        
+        public int GetId()
+        {
+            return _id;
+        }
+
         public void Run()
         {
             // run between 1 and 4 spaces at random
             CurrentPosition += Randomizer.Next(1, 5);
-            positions.Append(CurrentPosition);
         }
 
         public void ResetPosition()
         {
-            CurrentPosition = InitialPosition;
+            CurrentPosition = _initialPosition;
         }
 
         public int getCurrentPosition()
         {
             return CurrentPosition;
-        }
-
-        public List<int> getPositions()
-        {
-            return positions;
-        }
-        
+        }        
     }
 }
