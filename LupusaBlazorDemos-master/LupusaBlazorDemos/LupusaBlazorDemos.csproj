@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+	  <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorSharedWebWorkerWebSocketHelper\BlazorSharedWebWorkerWebSocketHelper.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorJsFastDataExchanger\BlazorJsFastDataExchanger\BlazorJsFastDataExchanger.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorScrollbar\BlazorScrollbarComponent\BlazorScrollbarComponent.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorSplitter\BlazorSplitterComponent\BlazorSplitterComponent.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorSvgHelper\BlazorSvgHelper\BlazorSvgHelper.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorVirtualGrid\BlazorVirtualGridComponent\BlazorVirtualGridComponent.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorWebSocketHelper\BlazorWebSocketHelper.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorWebWorkerHelper\BlazorWebWorkerHelper.csproj" />
+    <ProjectReference Include="..\..\MyNugetProjects\BlazorWindowHelper\BlazorWindowHelper.csproj" />
+    <ProjectReference Include="..\BlazorCalculatorComponent\BlazorCalculatorComponent.csproj" />
+    <ProjectReference Include="..\BlazorChessComponent\BlazorChessComponent.csproj" />
+    <ProjectReference Include="..\BlazorClockCanvasComponent\BlazorClockCanvasComponent.csproj" />
+    <ProjectReference Include="..\BlazorClockSvgComponent\BlazorClockSvgComponent.csproj" />
+    <ProjectReference Include="..\BlazorCounterHelper\BlazorCounterHelper.csproj" />
+    <ProjectReference Include="..\BlazorDoughnutChartComponent\BlazorDoughnutChartComponent.csproj" />
+    <ProjectReference Include="..\BlazorGameSnakeComponent\BlazorGameSnakeComponent.csproj" />
+    <ProjectReference Include="..\BlazorLoanCalculatorComponent\BlazorLoanCalculatorComponent.csproj" />
+    <ProjectReference Include="..\BlazorPaintComponent\BlazorPaintComponent.csproj" />
+    <ProjectReference Include="..\BlazorPasswordPatternComponent\BlazorPasswordPatternComponent.csproj" />
+    <ProjectReference Include="..\BlazorPerformanceChartComponent\BlazorPerformanceChartComponent.csproj" />
+    <ProjectReference Include="..\BlazorSpreadsheetComponent\BlazorSpreadsheetComponent.csproj" />
+    <ProjectReference Include="..\BlazorTreeVisualizerComponent\BlazorTreeVisualizerComponent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\content\" />
+  </ItemGroup>
+
+</Project>

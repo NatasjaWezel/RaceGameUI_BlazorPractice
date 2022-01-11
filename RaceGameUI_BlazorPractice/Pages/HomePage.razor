@@ -1,0 +1,108 @@
+﻿@page "/"
+
+<PageTitle>HomePage</PageTitle>
+
+<h1>Welcome on this Race Track Simulator!</h1>
+
+<div class="container-fluid">
+    <div class="row">  
+        <div class="col">    
+            <svg width="860" height="400">
+                <rect x="0" y="0" width="860" height="400" style="fill:green;stroke:#999999;stroke-width:2"></rect>
+
+                <RenderTrackComponent></RenderTrackComponent>
+
+                <rect x="50" y="10" width="2" height="380" style="fill:black"></rect>
+                <rect x="810" y="10" width="2" height="380" style="fill:black"></rect>
+        
+                <text x="820" y="35">@curPosDog0</text>
+                <text x="820" y="85">@curPosDog1</text>
+                <text x="820" y="135">@curPosDog2</text>
+                <text x="820" y="185">@curPosDog3</text>
+
+            </svg>
+        </div>
+
+        <div class="col">
+            <h3>Betting stats</h3>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Starting Capital</th>
+                    <th>Current Capital</th>
+                    <th>Bet Amount</th>
+                    <th>Dog</th>
+                    <th>Profit</th>
+                </tr>
+                    @foreach (var bettor in LocalData.bettors)
+                    {
+                        <tr>
+                            <td><p>@bettor.Value.GetName()</p></td>
+                            <td><p>@bettor.Value.GetStartCash()</p></td>
+                            <td><p>@bettor.Value.GetCurrentCash()</p></td>
+                            <td><p>@bettor.Value.GetBet().GetAmount()</p></td>
+                            <td><p>@bettor.Value.GetBet().GetDogNumber()</p></td>
+
+                            @if (bettor.Value.GetCurrentCash() - bettor.Value.GetStartCash() > 0)
+                            {
+                                <td><p style="color:green">+ @(bettor.Value.GetCurrentCash() - bettor.Value.GetStartCash())</p></td>
+                            } else if (bettor.Value.GetCurrentCash() - bettor.Value.GetStartCash() < 0)
+                            {
+                            <td><p style="color:red">@(bettor.Value.GetCurrentCash() - bettor.Value.GetStartCash())</p></td>
+                            } else
+                            {
+                                <td><p style="color:black">@(bettor.Value.GetCurrentCash() - bettor.Value.GetStartCash())</p></td>
+                            }
+
+                        </tr>
+                    }
+            </table>
+            
+            <button type="button" class="btn btn-secondary btn-sm" @onclick="PlaceRandomBet">Fill with random bets</button>
+        </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+        <h3>Place your bet!</h3>
+        <p>Minimum betting amount is @LocalData.MinimumBet bucks</p>
+
+        <label for="cars"></label>
+        <select name="cars" id="cars">
+          <option value="volvo">Al</option>
+          <option value="saab">Bob</option>
+          <option value="mercedes">Bodei</option>
+          <option value="audi">Romy</option>
+        </select>
+
+        <label for="cars">bets 50 bucks on dog:</label>
+        <select name="cars" id="cars">
+          <option value="volvo">#1</option>
+          <option value="saab">#2</option>
+          <option value="mercedes">#3</option>
+          <option value="audi">#4</option>
+        </select>
+
+        <button class="btn btn-secondary btn-sm" @onclick="PlaceBet">Place bet</button>
+
+    </div>
+
+    <div class="col">
+        <button type="button" class="btn btn-primary btn-lg" @onclick="startRace">Start Race!!</button>
+    </div>
+
+  </div>
+
+
+</div>
+
+@*<div class="racetrackImageContainter">
+    <img src="images/racetrack.png" alt="Race track with lanes for four dogs.">
+    
+    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
+    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
+    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
+</div>*@
+
+
+

@@ -1,0 +1,63 @@
+﻿@page "/PageTreeView"
+
+
+    <style>
+        .trdiv {
+            display: flex;
+            user-select: none;
+            position: relative;
+            align-items: center;
+        }
+
+        .hhh {
+            height: 4vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trimg {
+            width: 2.5vh;
+            height: 2.5vh;
+            user-select: none;
+            cursor: pointer;
+            margin-left: 0.5vh;
+            margin-right: 0.5vh;
+        }
+
+        .trsp {
+            user-select: none;
+            cursor: pointer;
+            margin-left: 0.5vh;
+        }
+
+        .trspsel {
+            background-color: lightyellow;
+            color: blue;
+            /*outline-style: solid;
+            outline-width: 1px;
+            outline-color: red;*/
+        }
+
+        .trspch {
+            font-weight: bold;
+            color: darkred;
+        }
+    </style>
+
+    <h3>Tree View</h3>
+
+
+    <button class="btn btn-primary" width="400" height="100" style="margin:5px" @onclick="@CmdButtonClick">delete selected</button>
+
+    <button class="btn btn-primary" width="400" height="100" style="margin:5px; margin-left:10px" @onclick="@CmdPrintClick">print</button>
+
+
+    <br />
+    <br />
+    <CompTreeView @ref="treeview" FirstItemID="0" SourceList="Treelist" VisualParams="visualParams" CssClasses="cssClasses"></CompTreeView>
+
+    <br />
+    <br />
+
+

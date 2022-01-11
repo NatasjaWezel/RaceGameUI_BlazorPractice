@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Blazor Demos</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="LupusaBlazorDemos.styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="lib/faker.js"></script>
+    <script src="lib/lupFunctions.js"></script>
+    <script src="LBDJsInterop.js"></script>
+
+    <script src="_content/BlazorWindowHelper/BWHJsInterop.js"></script>
+    <script src="_content/BlazorWebWorkerHelper/BwwJsInterop.js"></script>
+    <script src="_content/BlazorWebSocketHelper/BwsJsInterop.js"></script>
+    <script src="_content/BlazorSharedWebWorkerWebSocketHelper/BSwwWsJsInterop.js"></script>
+    <script src="_content/BlazorClockSvgComponent/BCSCJsInterop.js"></script>
+    <script src="_content/BlazorClockCanvasComponent/BCCCJsInterop.js"></script>
+    <script src="_content/BlazorChessComponent/BChessCJsInterop.js"></script>
+    <script src="_content/BlazorGameSnakeComponent/BGSnakeCJsInterop.js"></script>
+    <script src="_content/BlazorPaintComponent/BPaintCJsInterop.js"></script>
+    <script src="_content/BlazorJsFastDataExchanger/BJSFDEJsInterop.js"></script>
+    <script src="_content/BlazorVirtualGridComponent/BVirtualGridCJsInterop.js"></script>
+    <script src="_content/BlazorScrollbarComponent/BScrollbarCJsInterop.js"></script>
+    <script src="_content/BlazorSplitterComponent/BSplitterCJsInterop.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                switch (type) {
+                    case 'dotnetjs':
+                    case 'dotnetwasm':
+                    case 'timezonedata':
+                    case 'globalization':
+                        return `https://lupusacdn.azureedge.net/blazor/v5.2/${name}`;
+                }
+            }
+        });
+    </script>
+
+
+</body>
+</html>
