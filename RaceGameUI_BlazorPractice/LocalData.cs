@@ -2,11 +2,17 @@
 {
     public class LocalData
     {
-        public static RenderTrackComponent? PaintedDogs = null;
-
         public static int RaceTrackLength = 100;
         public static int MinimumBet = 5;
         public static int RaceNumber = 0;
+
+        // to bind html elements with
+        public static string BettorName = "";
+        public static int Amount = MinimumBet;
+        public static int DogNumber = 0;
+
+        public static string NewPlayerName = "";
+        public static int NewPlayerStartCash = MinimumBet;
 
         private static Random random = new Random();
 

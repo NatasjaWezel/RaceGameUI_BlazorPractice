@@ -30,7 +30,7 @@ namespace RaceGameUI_BlazorPractice
         {
             LocalData.hounds[dogNumber].Run();
 
-            if (LocalData.hounds[dogNumber].getCurrentPosition() >= _trackLength)
+            if (LocalData.hounds[dogNumber].GetCurrentPosition() >= _trackLength)
             {
                 this.finished = true;
             }
@@ -43,7 +43,7 @@ namespace RaceGameUI_BlazorPractice
 
         public int GetHoundPosition(int dognumber)
         {
-            return LocalData.hounds[dognumber].getCurrentPosition();
+            return LocalData.hounds[dognumber].GetCurrentPosition();
         }
     }
 }

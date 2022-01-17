@@ -4,13 +4,29 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/*.container {
-    height: 80vh;
-    margin: 2rem;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 3fr 1fr;
-}*/
+input, select {
+    vertical-align: top;
+    height: 30px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0
+}
+.dogImage {
+    display: inline-block;
+}
+.pusher {
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.box {
+    display:inline-block;
+    border: 1px solid black;
+    margin: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
+}
 
 .cell {
     color: white;

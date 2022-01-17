@@ -6,21 +6,22 @@
 
 <div class="container-fluid">
     <div class="row">  
-        <div class="col">    
-            <svg width="860" height="410">
-                <rect x="0" y="0" width="860" height="410" style="fill:green;stroke:#999999;stroke-width:2"></rect>
-                
-                <rect x="50" y="10" width="2" height="390" style="fill:black"></rect>
-                <rect x="808" y="10" width="2" height="390" style="fill:black"></rect>
-
-                <RenderTrackComponent></RenderTrackComponent>           
-
-            </svg>
+        <div style="background:green" class="col box">
+            @foreach (GreyHound hound in LocalData.hounds)
+            {
+                <div style="display:inline-block;border: 1px solid black;width:@hound.GetPercentage()%">&nbsp;</div>
+                <div style="display:inline-block"><img height=40 src="images/greyhoundracing.png"/></div>
+                <div hidden><img height=40 src="images/olympic-medal-1st-place.png"/></div>
+                <br>
+            }
         </div>
+  </div>
 
-        <div class="col">
+  <div class="row">
+              <div class="col box">
             <h3>Betting stats</h3>
-            <table class="table">
+            <div style='overflow-y:auto'>            
+                <table class="table">
                 <tr>
                     <th>Name</th>
                     <th>Starting Capital</th>
@@ -51,53 +52,59 @@
 
                         </tr>
                     }
-            </table>
+                </table>
+            </div>
+
             
             <button type="button" class="btn btn-secondary btn-sm" @onclick="PlaceRandomBet">Fill with random bets</button>
+
+            <button type="button" class="btn btn-secondary btn-sm" @onclick="GoToHistoryPage">See history</button>
         </div>
-  </div>
-
-  <div class="row">
     <div class="col">
-        <h3>Place your bet!</h3>
-        <p>Minimum betting amount is @LocalData.MinimumBet bucks</p>
+           <div class="row box">
+               <h3>Place your bet!</h3>
+                <p>Minimum betting amount is @LocalData.MinimumBet bucks</p>
 
-        <label for="cars"></label>
-        <select name="cars" id="cars">
-          <option value="volvo">Al</option>
-          <option value="saab">Bob</option>
-          <option value="mercedes">Bodei</option>
-          <option value="audi">Romy</option>
-        </select>
+                <label for="bettors"></label>
+                <select @bind="@LocalData.BettorName" name="bettors" id="bettors">
+                    @foreach (var Bettor in LocalData.bettors)
+                    {
+                        <option value=@Bettor.Key>@Bettor.Key</option>
+                    }
+                </select>
 
-        <label for="cars">bets 50 bucks on dog:</label>
-        <select name="cars" id="cars">
-          <option value="volvo">#1</option>
-          <option value="saab">#2</option>
-          <option value="mercedes">#3</option>
-          <option value="audi">#4</option>
-        </select>
+                <label for="quantity">bets</label>
+                <input type="number" id="quantity" @bind="@LocalData.Amount" 
+                        min=@LocalData.MinimumBet max=100>
 
-        <button class="btn btn-secondary btn-sm" @onclick="PlaceBet">Place bet</button>
+                <label for="dogs">bucks on dog:</label>
+                <select @bind="@LocalData.DogNumber" name="dogs" id="dogs">
+                    @for (int i = 1; i < LocalData.AmountGreyHounds; i++)
+                    {
+                        <option value=@i>#@i</option>
+                    }
+                </select>
 
+                <button class="btn btn-secondary btn-sm" @onclick="PlaceBet">Place bet</button>
+           </div>
+           <div class="row box">
+                <h3>Do you want to join in on the fun?</h3>
+                <p>Add bettor here</p>
+
+                <label for="NewPlayerName">Name: </label>
+                <input type="text" id="NewPlayerName" @bind="@LocalData.NewPlayerName">
+
+                <label for="newPlayerStartCash">, starting Cash:</label>
+                <input type="number" id="NewPlayerStartCash" @bind="@LocalData.NewPlayerStartCash" 
+                        min=@LocalData.MinimumBet max=1000>
+
+                <button class="btn btn-secondary btn-sm" @onclick="CreateBettor">Add player</button>
+           </div>
     </div>
 
-    <div class="col">
+    <div class="col box">
         <button type="button" class="btn btn-primary btn-lg" @onclick="startRace">Start Race!!</button>
     </div>
 
-  </div>
-
-
 </div>
-
-@*<div class="racetrackImageContainter">
-    <img src="images/racetrack.png" alt="Race track with lanes for four dogs.">
-    
-    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
-    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
-    <img src="images/dog.png" alt="Race track with lanes for four dogs.">
-</div>*@
-
-
-
+</div>

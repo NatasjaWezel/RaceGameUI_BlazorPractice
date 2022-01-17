@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Components;
 using System.Diagnostics;
 
 namespace RaceGameUI_BlazorPractice.Pages
 {
     public partial class HomePage
     {
-        SimulateRace simulator = new SimulateRace(); 
+        SimulateRace simulator = new SimulateRace();
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         public async void startRace()
         {
@@ -24,7 +28,6 @@ namespace RaceGameUI_BlazorPractice.Pages
             simulator.CalculateBetResult(winningDogNumber);
 
             StateHasChanged();
-            LocalData.PaintedDogs.Refresh();
 
             LocalData.RaceNumber++;
         }
@@ -41,8 +44,8 @@ namespace RaceGameUI_BlazorPractice.Pages
         public async Task RunRaceStep(int dogNumber)
         {
             simulator.SimulateStep(dogNumber % LocalData.AmountGreyHounds);
+            Debug.Print((dogNumber % LocalData.AmountGreyHounds).ToString() + ": " + LocalData.hounds[dogNumber % LocalData.AmountGreyHounds].GetCurrentPosition().ToString());
 
-            LocalData.PaintedDogs.Refresh();
             await InvokeAsync(StateHasChanged);
             await Task.Delay(1);
         }
@@ -56,12 +59,24 @@ namespace RaceGameUI_BlazorPractice.Pages
                 {
                     bettor.Value.PlaceRandomBet();
                 }
-            }
+            }   
+        }
+
+        public void GoToHistoryPage()
+        {
+            NavigationManager.NavigateTo("bet_history");
+            Debug.Print("Todo");
         }
 
         public void PlaceBet()
         {
-            Debug.Print("Todo");
+            LocalData.bettors[LocalData.BettorName].PlaceBet(LocalData.Amount, LocalData.DogNumber);
+        }
+
+        public void CreateBettor()
+        {
+            LocalData.bettors[LocalData.NewPlayerName] = new Bettor(LocalData.NewPlayerName, LocalData.NewPlayerStartCash);
+
         }
     }   
 }
