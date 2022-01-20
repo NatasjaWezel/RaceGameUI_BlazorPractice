@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice", "RaceGameUI_BlazorPractice\RaceGameUI_BlazorPractice.csproj", "{EA280739-AE59-4B03-89E0-3733C11F49B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice.Web", "RaceGameUI_BlazorPractice\RaceGameUI_BlazorPractice.Web.csproj", "{EA280739-AE59-4B03-89E0-3733C11F49B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice.Dal", "RaceGameUI_BlazorPractice.DAL\RaceGameUI_BlazorPractice.Dal.csproj", "{627B7355-67C8-4A96-8010-C05739DDFCD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceGameUI_BlazorPractice.Model", "RaceGameUI_BlazorPractice.Model\RaceGameUI_BlazorPractice.Model.csproj", "{5DE4AB7C-5839-4B82-9474-6306D102819F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{EA280739-AE59-4B03-89E0-3733C11F49B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA280739-AE59-4B03-89E0-3733C11F49B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA280739-AE59-4B03-89E0-3733C11F49B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627B7355-67C8-4A96-8010-C05739DDFCD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627B7355-67C8-4A96-8010-C05739DDFCD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627B7355-67C8-4A96-8010-C05739DDFCD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627B7355-67C8-4A96-8010-C05739DDFCD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DE4AB7C-5839-4B82-9474-6306D102819F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DE4AB7C-5839-4B82-9474-6306D102819F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DE4AB7C-5839-4B82-9474-6306D102819F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DE4AB7C-5839-4B82-9474-6306D102819F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

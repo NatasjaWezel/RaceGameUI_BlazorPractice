@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using RaceGameUI_BlazorPractice;
-using System.Diagnostics;
-using Xceed.Document.NET;
+using RaceGameUI_BlazorPractice.Dal;
+using RaceGameUI_BlazorPractice.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<IBettorRepository, BettorRepository>();
+builder.Services.AddSingleton<IBettorService, BettorService>();
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();

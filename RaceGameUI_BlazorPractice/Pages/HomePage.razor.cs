@@ -1,16 +1,28 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics;
+using RaceGameUI_BlazorPractice.Web.Models;
+using RaceGameUI_BlazorPractice.Web.Services;
 
-namespace RaceGameUI_BlazorPractice.Pages
+namespace RaceGameUI_BlazorPractice.Web.Pages
 {
     public partial class HomePage
     {
-        SimulateRace simulator = new SimulateRace();
+        SimulateRace simulator = new();
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public async void startRace()
+        [Inject]
+        public BettorService BettorService { get; set; }
+
+        private BettorViewModel[] bettors;
+
+        protected override async Task OnInitializedAsync()
+        {
+            bettors = await BettorService.GetBettorsAsync();
+        }
+
+        public async void StartRace()
         {
             await ResetRace();
             int dogNumber = 0;
@@ -25,7 +37,8 @@ namespace RaceGameUI_BlazorPractice.Pages
             }
 
             int winningDogNumber = (dogNumber - 1) % LocalData.AmountGreyHounds + 1;
-            simulator.CalculateBetResult(winningDogNumber);
+
+            BettorService.CalculateBetResult(winningDogNumber);
 
             StateHasChanged();
 
@@ -36,30 +49,20 @@ namespace RaceGameUI_BlazorPractice.Pages
         {
             simulator.TakeDogsToStart();
 
-            Debug.Print("Took dogs to the start of the race track.");
-
             await InvokeAsync(StateHasChanged);
         }
 
         public async Task RunRaceStep(int dogNumber)
         {
             simulator.SimulateStep(dogNumber % LocalData.AmountGreyHounds);
-            Debug.Print((dogNumber % LocalData.AmountGreyHounds).ToString() + ": " + LocalData.hounds[dogNumber % LocalData.AmountGreyHounds].GetCurrentPosition().ToString());
 
             await InvokeAsync(StateHasChanged);
             await Task.Delay(1);
         }
 
-        public void PlaceRandomBet()
+        public async void PlaceRandomBet()
         {
-            foreach (var bettor in LocalData.bettors)
-            {
-                // check if zero as not to overwrite handplaced bets
-                if (bettor.Value.GetBet().GetAmount() == "-")
-                {
-                    bettor.Value.PlaceRandomBet();
-                }
-            }   
+            StateHasChanged();
         }
 
         public void GoToHistoryPage()
@@ -70,13 +73,11 @@ namespace RaceGameUI_BlazorPractice.Pages
 
         public void PlaceBet()
         {
-            LocalData.bettors[LocalData.BettorName].PlaceBet(LocalData.Amount, LocalData.DogNumber);
+            StateHasChanged();
         }
 
         public void CreateBettor()
         {
-            LocalData.bettors[LocalData.NewPlayerName] = new Bettor(LocalData.NewPlayerName, LocalData.NewPlayerStartCash);
-
         }
     }   
 }
