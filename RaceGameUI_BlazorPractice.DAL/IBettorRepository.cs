@@ -4,6 +4,6 @@ namespace RaceGameUI_BlazorPractice.Dal
 {
     public interface IBettorRepository
     {
-        List<BettorEntityModel> GetBettors(String Filename);
+        List<BettorEntityModel> GetBettors(string FileName);
     }
 }

@@ -7,7 +7,7 @@ namespace RaceGameUI_BlazorPractice.Dal
     {
         public List<BettorEntityModel> GetBettors(String FileName)
         {
-            List<BettorEntityModel> Bettors = new List<BettorEntityModel>();
+            List<BettorEntityModel> Bettors = new();
 
             var reader = new StreamReader(FileName);
             var headerLine = reader.ReadLine();
