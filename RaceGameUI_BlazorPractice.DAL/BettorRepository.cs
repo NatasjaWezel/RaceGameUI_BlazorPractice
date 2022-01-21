@@ -1,4 +1,5 @@
 ﻿using RaceGameUI_BlazorPractice.Model;
+using System.Diagnostics;
 
 namespace RaceGameUI_BlazorPractice.Dal
 {
@@ -9,13 +10,16 @@ namespace RaceGameUI_BlazorPractice.Dal
             List<BettorEntityModel> Bettors = new List<BettorEntityModel>();
 
             var reader = new StreamReader(FileName);
+            var headerLine = reader.ReadLine();
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                var values = line.Split(',');
+                Debug.Print(line);
+                var values = line.Split(';');
 
-                Bettors.Add(new BettorEntityModel() { Name = values[0],
-                                                      StartingCash = Int32.Parse(values[1])});
+                Bettors.Add(new BettorEntityModel() { Name = values[1],
+                                                      StartingCash = Int32.Parse(values[2]),
+                                                      CurrentCash = Int32.Parse(values[3])});
             }
 
             return Bettors;

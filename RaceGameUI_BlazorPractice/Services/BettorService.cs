@@ -19,7 +19,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             if (_bettors == null)
             {
                 // the repo in .dal gets the data
-                var entityModel = _bettorRepository.GetBettors("bettors.csv");
+                var entityModel = _bettorRepository.GetBettors("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\bettors.csv");
 
                 // map to gui model
                 _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash}).ToArray();

@@ -13,7 +13,7 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public BettorService BettorService { get; set; }
+        public IBettorService BettorService { get; set; }
 
         private BettorViewModel[] bettors;
 

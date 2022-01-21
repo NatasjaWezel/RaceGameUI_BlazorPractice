@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+// everywhere where you use this interface, use a single instance (singleton) of the second thing
 builder.Services.AddSingleton<IBettorRepository, BettorRepository>();
 builder.Services.AddSingleton<IBettorService, BettorService>();
 builder.Services.AddServerSideBlazor();
