@@ -7,73 +7,45 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
 {
     public partial class HomePage
     {
-        SimulateRace simulator = new();
-
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
         public IBettorService BettorService { get; set; }
 
-        private BettorViewModel[] bettors;
+        [Inject]
+        public IGreyHoundService GreyHoundService { get; set; }
+
+        private List<BettorViewModel> bettors;
+        private List<GreyHoundViewModel> greyHounds;
 
         protected override async Task OnInitializedAsync()
         {
             bettors = await BettorService.GetBettorsAsync();
+            greyHounds = await GreyHoundService.GetGreyHoundsAsync();
         }
 
         public async void StartRace()
         {
-            await ResetRace();
-            int dogNumber = 0;
-
-            Debug.Print("Now running simulation #" + LocalData.RaceNumber);
-            while (!simulator.RaceEnded())
-            {
-                await RunRaceStep(dogNumber);
-
-                Thread.Sleep(5);
-                dogNumber++;
-            }
-
-            int winningDogNumber = (dogNumber - 1) % LocalData.AmountGreyHounds + 1;
-
-            BettorService.CalculateBetResult(winningDogNumber);
-
-            StateHasChanged();
-
-            LocalData.RaceNumber++;
+            // start race
+            // when ended, calculate bet results
         }
 
         public async Task ResetRace()
         {
-            simulator.TakeDogsToStart();
-
-            await InvokeAsync(StateHasChanged);
-        }
-
-        public async Task RunRaceStep(int dogNumber)
-        {
-            simulator.SimulateStep(dogNumber % LocalData.AmountGreyHounds);
-
-            await InvokeAsync(StateHasChanged);
-            await Task.Delay(1);
         }
 
         public async void PlaceRandomBet()
         {
-            StateHasChanged();
         }
 
         public void GoToHistoryPage()
         {
             NavigationManager.NavigateTo("bet_history");
-            Debug.Print("Todo");
         }
 
         public void PlaceBet()
         {
-            StateHasChanged();
         }
 
         public void CreateBettor()

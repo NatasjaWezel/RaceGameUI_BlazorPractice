@@ -4,7 +4,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public interface IBettorService
     {
-        Task<BettorViewModel[]> GetBettorsAsync();
+        Task<List<BettorViewModel>> GetBettorsAsync();
 
         Task PlaceRandomBetsAsync();
         Task PlaceBetAsync();

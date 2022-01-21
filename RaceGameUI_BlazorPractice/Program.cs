@@ -7,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 // everywhere where you use this interface, use a single instance (singleton) of the second thing
 builder.Services.AddSingleton<IBettorRepository, BettorRepository>();
+builder.Services.AddSingleton<IGreyHoundRepository, GreyHoundRepository>();
 builder.Services.AddSingleton<IBettorService, BettorService>();
+builder.Services.AddSingleton<IGreyHoundService, GreyHoundService>();
+builder.Services.AddSingleton<IBetService, BetService>();
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();

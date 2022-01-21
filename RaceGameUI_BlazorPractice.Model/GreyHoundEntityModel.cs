@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
 
-        // private readonly Random _randomizer;
+        public readonly Random _randomizer;
 
         public int Id { get; set; }
  

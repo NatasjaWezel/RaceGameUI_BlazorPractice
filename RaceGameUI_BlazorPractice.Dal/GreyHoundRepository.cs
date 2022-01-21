@@ -2,7 +2,7 @@
 
 namespace RaceGameUI_BlazorPractice.Dal
 {
-    public class GreyHoundRepository
+    public class GreyHoundRepository: IGreyHoundRepository
     {
         public List<GreyHoundEntityModel> GetGreyHounds(string FileName)
         {

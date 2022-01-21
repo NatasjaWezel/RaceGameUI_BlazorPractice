@@ -1,5 +1,4 @@
 ﻿using RaceGameUI_BlazorPractice.Web.Models;
-using RaceGameUI_BlazorPractice.Model;
 using RaceGameUI_BlazorPractice.Dal;
 
 namespace RaceGameUI_BlazorPractice.Web.Services
@@ -7,22 +6,22 @@ namespace RaceGameUI_BlazorPractice.Web.Services
     public class BettorService: IBettorService
     {
         private readonly IBettorRepository _bettorRepository;
-        private BettorViewModel[]? _bettors;
+        private List<BettorViewModel>? _bettors;
 
         public BettorService(IBettorRepository bettorRepository)
         {
             _bettorRepository = bettorRepository;
         }
 
-        public Task<BettorViewModel[]> GetBettorsAsync()
+        public Task<List<BettorViewModel>> GetBettorsAsync()
         {
             if (_bettors == null)
             {
                 // the repo in .dal gets the data
-                var entityModel = _bettorRepository.GetBettors("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\bettors.csv");
+                var entityModel = _bettorRepository.GetBettors("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\Data\\bettors.csv");
 
                 // map to gui model
-                _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash}).ToArray();
+                _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash}).ToList();
             }
 
             return Task.FromResult(_bettors);
@@ -30,14 +29,11 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
         public async Task PlaceRandomBetsAsync()
         {
-            //foreach (var bettor in _bettors)
-            //{
-            //    // check if zero as not to overwrite handplaced bets
-            //    if (bettor.GetBet().GetAmount() == "-")
-            //    {
-            //        bettor.PlaceRandomBet();
-            //    }
-            //}
+            foreach (var bettor in _bettors)
+            {
+                //    // check if zero as not to overwrite handplaced bets
+                //    bettor.PlaceRandomBet();
+            }
         }
 
         public async Task PlaceBetAsync()
