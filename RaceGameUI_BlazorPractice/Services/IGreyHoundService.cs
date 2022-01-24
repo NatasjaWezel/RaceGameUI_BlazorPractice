@@ -5,7 +5,11 @@ namespace RaceGameUI_BlazorPractice.Web.Services
     public interface IGreyHoundService
     {
         Task<List<GreyHoundViewModel>> GetGreyHoundsAsync();
+        List<GreyHoundViewModel> GetGreyHounds();
 
-        Task RunAsync();
+        Task RunAsync(int dogNumber);
+
+        bool AreDogsFinished();
+        void TakeDogsToStart();
     }
 }

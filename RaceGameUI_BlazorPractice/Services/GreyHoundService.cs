@@ -7,10 +7,13 @@ namespace RaceGameUI_BlazorPractice.Web.Services
     {
         private readonly IGreyHoundRepository _greyHoundRepository;
         public List<GreyHoundViewModel>? GreyHounds;
+
+        private Random _random;
         
         public GreyHoundService(IGreyHoundRepository greyhoundRepository)
         {
             _greyHoundRepository = greyhoundRepository;
+            _random = new Random();
         }
         
         public Task<List<GreyHoundViewModel>> GetGreyHoundsAsync()
@@ -27,21 +30,53 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             return Task.FromResult(GreyHounds);
         }
 
-        public Task RunAsync()
+        public List<GreyHoundViewModel> GetGreyHounds()
         {
-            //    // run between 1 and 4 spaces at random
-            //    int addToPos = _randomizer.Next(1, 5);
+            return GreyHounds;
+        }
 
-            //    // make sure hound doesn't run further than the finish
-            //    if (_currentPosition + addToPos >= LocalData.RaceTrackLength)
-            //    {
-            //        _currentPosition = LocalData.RaceTrackLength;
-            //    }
-            //    else
-            //    {
-            //        _currentPosition += addToPos;
-            //    }
-            throw new NotImplementedException();
+        public async Task RunAsync(int whichDog)
+        {
+            // run between 1 and 4 spaces at random
+            int addToPos = _random.Next(1, 5);
+
+            var hound = GreyHounds[whichDog % GreyHounds.Count];
+
+            // make sure hound doesn't run further than the finish
+            if (hound.CurrentPosition + addToPos >= RaceTrackService.trackLength)
+            {
+                hound.CurrentPosition = RaceTrackService.trackLength;
+                hound.finished = true;
+            }
+            else
+            {
+                hound.CurrentPosition += addToPos;
+            }
+        }
+
+        public bool AreDogsFinished()
+        {
+            foreach (var hound in GreyHounds)
+            {
+                if (!hound.finished)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void TakeDogsToStart()
+        {
+            foreach (var hound in GreyHounds)
+            {
+                hound.CurrentPosition = 0;
+                hound.finished = false;
+                hound.hideMedal1 = true;
+                hound.hideMedal2 = true;
+                hound.hideMedal3 = true;
+            }
         }
     }
 }

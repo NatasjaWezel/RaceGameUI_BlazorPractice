@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using System.Diagnostics;
 using RaceGameUI_BlazorPractice.Web.Models;
 using RaceGameUI_BlazorPractice.Web.Services;
 
@@ -11,10 +10,13 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
         public NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public IBettorService BettorService { get; set; }
+        public IBettorService Bettors { get; set; }
 
         [Inject]
-        public IGreyHoundService GreyHoundService { get; set; }
+        public IGreyHoundService GreyHounds { get; set; }
+
+        [Inject]
+        public IRaceTrackService RaceTrack { get; set; }
 
         private List<BettorViewModel> bettors;
         private List<GreyHoundViewModel> greyHounds;
@@ -23,13 +25,14 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            bettors = await BettorService.GetBettorsAsync();
-            greyHounds = await GreyHoundService.GetGreyHoundsAsync();
+            bettors = await Bettors.GetBettorsAsync();
+            greyHounds = await GreyHounds.GetGreyHoundsAsync();
         }
 
         public async void StartRace()
         {
             // start race
+            RaceTrack.SimulateRace();
             // when ended, calculate bet results
         }
 

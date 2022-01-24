@@ -1,81 +1,73 @@
-﻿namespace RaceGameUI_BlazorPractice.Web.Services
+﻿using Microsoft.AspNetCore.Components;
+using System.Diagnostics;
+
+namespace RaceGameUI_BlazorPractice.Web.Services
 {
-    public class RaceTrackService
+    public class RaceTrackService: IRaceTrackService
     {
         public static int minInvestment = 50;
         public static int maxInvestment = 500000;
-        // Start Race
-        //    int dogNumber = 0;
+        public static int trackLength = 100;
+        public int raceNumber = 0;
+        public bool raceEnded = false;
 
-        //    Debug.Print("Now running simulation #" + LocalData.RaceNumber);
-        //        while (!simulator.RaceEnded())
+        private readonly IGreyHoundService _greyHounds;
+
+        public RaceTrackService(IGreyHoundService GreyHoundService)
+        {
+            _greyHounds = GreyHoundService;
+        }
+
+        public async void SimulateRace()
+        {
+            _greyHounds.TakeDogsToStart();
+            int dogNumber = 0;
+            Debug.Print("Now running simulation #" + raceNumber);
+
+            while (!raceEnded)
+            {
+                await _greyHounds.RunAsync(dogNumber);
+
+                Thread.Sleep(5);
+                dogNumber++;
+                raceEnded = _greyHounds.AreDogsFinished();
+            }
+
+            raceNumber++;
+
+        }
+
+        //public void SimulateStep(int dogNumber)
+        //{
+        //    GreyHoundViewModel hound = LocalData.hounds[dogNumber];
+
+        //    if (!hound.finished)
+        //    {
+        //        hound.Run();
+
+        //        if (hound.GetCurrentPosition() >= _trackLength)
         //        {
-        //            await RunRaceStep(dogNumber);
+        //            hound.finished = true;
 
-        //    Thread.Sleep(5);
-        //            dogNumber++;
+        //            if (this.houndsFinished == 0)
+        //            {
+        //                hound.hideMedal1 = false;
+        //                this.houndsFinished++;
+        //            }
+        //            else if (this.houndsFinished == 1)
+        //            {
+        //                hound.hideMedal2 = false;
+        //                this.houndsFinished++;
+        //            }
+        //            else if (this.houndsFinished == 2)
+        //            {
+        //                hound.hideMedal3 = false;
+        //                this.houndsFinished++;
+        //            }
+
         //        }
+        //    }
+        //}
 
-        //int winningDogNumber = (dogNumber - 1) % LocalData.AmountGreyHounds + 1;
-
-    //public void TakeDogsToStart()
-    //{
-    //    this.houndsFinished = 0;
-
-    //    foreach (var hound in LocalData.hounds)
-    //    {
-    //        hound.ResetPosition();
-    //        hound.finished = false;
-    //        hound.hideMedal1 = true;
-    //        hound.hideMedal2 = true;
-    //        hound.hideMedal3 = true;
-    //    }
-
-    //}
-
-    //public void SimulateStep(int dogNumber)
-    //{
-    //    GreyHoundViewModel hound = LocalData.hounds[dogNumber];
-
-    //    if (!hound.finished)
-    //    {
-    //        hound.Run();
-
-    //        if (hound.GetCurrentPosition() >= _trackLength)
-    //        {
-    //            hound.finished = true;
-
-    //            if (this.houndsFinished == 0)
-    //            {
-    //                hound.hideMedal1 = false;
-    //                this.houndsFinished++;
-    //            }
-    //            else if (this.houndsFinished == 1)
-    //            {
-    //                hound.hideMedal2 = false;
-    //                this.houndsFinished++;
-    //            }
-    //            else if (this.houndsFinished == 2)
-    //            {
-    //                hound.hideMedal3 = false;
-    //                this.houndsFinished++;
-    //            }
-
-    //        }
-    //    }
-    //}
-
-    //public bool RaceEnded()
-    //{
-    //    foreach (var hound in LocalData.hounds)
-    //    {
-    //        if (!hound.finished)
-    //        {
-    //            return false;
-    //        }
-    //    }
-
-    //    return true;
-    //}
-}
+    }
 }

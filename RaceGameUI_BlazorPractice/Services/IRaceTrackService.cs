@@ -1,9 +1,9 @@
 ﻿namespace RaceGameUI_BlazorPractice.Web.Services
 {
-    public class IRaceTrackService
+    public interface IRaceTrackService
     {
-        // Start Race
-
+        void SimulateRace();
+        
         // Simulate Step
 
         // Race Ended
