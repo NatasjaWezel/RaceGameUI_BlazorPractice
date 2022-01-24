@@ -2,6 +2,8 @@
 {
     public class BetService: IBetService
     {
+        public static int minBet = 5;
+        public static int maxBet = 1000;
         //    public void PlaceBet(int Amount, int DogNumber)
         //    {
         //        if (Amount <= CurrentCash)

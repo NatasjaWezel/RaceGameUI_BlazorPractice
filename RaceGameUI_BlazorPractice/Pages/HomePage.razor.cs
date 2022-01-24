@@ -18,6 +18,8 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
 
         private List<BettorViewModel> bettors;
         private List<GreyHoundViewModel> greyHounds;
+        private string newPlayerName = "";
+        private int newPlayerStartCash = 50;
 
         protected override async Task OnInitializedAsync()
         {

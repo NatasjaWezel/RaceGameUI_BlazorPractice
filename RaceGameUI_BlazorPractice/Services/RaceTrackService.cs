@@ -2,6 +2,8 @@
 {
     public class RaceTrackService
     {
+        public static int minInvestment = 50;
+        public static int maxInvestment = 500000;
         // Start Race
         //    int dogNumber = 0;
 

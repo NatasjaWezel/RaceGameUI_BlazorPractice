@@ -64,7 +64,7 @@
     <div class="col">
            <div class="row box">
                <h3>Place your bet!</h3>
-                <p style="display:inline-block">Betting amount has to be between 0 and 500</p>
+                <p style="display:inline-block">Betting amount has to be between @BetService.minBet and @BetService.maxBet</p>
 
                 <div class="linecontainer">
                     <div style="width:20%;display:inline">                
@@ -96,18 +96,18 @@
            </div>
            <div class="row box">
                 <h3>Join in on the fun!</h3>
-                <p style="display:inline-block">Add a bettor here</p>
+                <p style="display:inline-block">Add a bettor here. Investment can be between @RaceTrackService.minInvestment and @RaceTrackService.maxInvestment.</p>
 
-@*                <div style="width:20%;display:inline">
+                <div style="width:20%;display:inline">
                     <label for="NewPlayerName">Name: </label>
-                    <input type="text" id="NewPlayerName" @bind="@LocalData.NewPlayerName">
+                    <input type="text" id="NewPlayerName" @bind="@newPlayerName">
                 </div>
 
                 <div style="width:20%;display:inline">
                     <label for="newPlayerStartCash"> Starting Cash:</label>
-                    <input type="number" id="NewPlayerStartCash" @bind="@LocalData.NewPlayerStartCash" 
-                        min=@LocalData.MinimumBet max=1000>
-                </div>*@
+                    <input type="number" id="NewPlayerStartCash" @bind="@newPlayerStartCash" 
+                        min=@RaceTrackService.minInvestment max=@RaceTrackService.maxInvestment>
+                </div>
 
                 <br />
                 <button class="btn btn-secondary btn-sm" @onclick="CreateBettor">Add player</button>
