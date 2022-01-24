@@ -1,32 +1,39 @@
-﻿namespace RaceGameUI_BlazorPractice.Web.Services
+﻿using RaceGameUI_BlazorPractice.Web.Models;
+
+namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public class BetService: IBetService
     {
         public static int minBet = 5;
         public static int maxBet = 1000;
-        //    public void PlaceBet(int Amount, int DogNumber)
-        //    {
-        //        if (Amount <= CurrentCash)
-        //        {
-        //            MyBet = new Bet(this, Amount, DogNumber);
-        //        }
 
-        //        Debug.Print(MyBet.GetDescription());
-        //    }
+        private IGreyHoundService _greyHoundService;
 
-        //    public bool PlaceRandomBet()
-        //    {
-        //        Random rand = new Random();
-        //        if (CurrentCash >= LocalData.MinimumBet)
-        //        {
-        //            PlaceBet(rand.Next(LocalData.MinimumBet, CurrentCash), rand.Next(1, LocalData.AmountGreyHounds));
-        //            return true;
-        //        }
+        public BetService(IGreyHoundService greyHoundService)
+        {
+            _greyHoundService = greyHoundService;
+        }
 
-        //        Debug.Print(Name + " cash is gone");
-        //        MyBet.Clear();
-        //        return false;
-        //    }
+        public BetViewModel GetBet(BettorViewModel bettor, int dogNumber, int investment)
+        {
+            if (investment <= bettor.CurrentCash)
+            {
+                return new BetViewModel(dogNumber, investment);
+            }
+            return new BetViewModel();
+        }
+
+        public BetViewModel GetRandomBet(BettorViewModel bettor)
+        {
+            Random rand = new Random();
+            if (bettor.CurrentCash >= RaceTrackService.minInvestment)
+            {
+                return GetBet(bettor,
+                         rand.Next(RaceTrackService.minInvestment, bettor.CurrentCash), 
+                         rand.Next(1, _greyHoundService.GetGreyHounds().Count));
+            }
+            return new BetViewModel();
+        }
 
         //    public void Collect(int WinnerDogNumber)
         //    {

@@ -4,21 +4,17 @@
     {
         private int _amount;
         private int _dogNumber;
-        private BettorViewModel _bettor;
-        private bool _hasPreviousBet;
 
-        public BetViewModel(BettorViewModel Bettor)
+        public BetViewModel()
         {
-            _hasPreviousBet = false;
-            _bettor = Bettor;
             _amount = 0;
+            _dogNumber = -1;
         }
 
-        public BetViewModel(BettorViewModel Bettor, int amount, int dognumber)
+        public BetViewModel(int amount, int dognumber)
         {
             _amount = amount;
             _dogNumber = dognumber;
-            _bettor = Bettor;
         }
 
         //public string GetDescription()
@@ -38,7 +34,7 @@
         public void Clear()
         {
             _amount = 0;
-            _dogNumber = 0;
+            _dogNumber = -1;
         }
 
         public string GetAmount()
@@ -52,7 +48,7 @@
 
         public string GetDogNumber()
         {
-            if (_dogNumber == 0)
+            if (_dogNumber == -1)
             {
                 return "-";
             }

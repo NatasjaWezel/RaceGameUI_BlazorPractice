@@ -42,6 +42,7 @@ namespace RaceGameUI_BlazorPractice.Web.Pages
 
         public async void PlaceRandomBet()
         {
+            await Bettors.PlaceRandomBetsAsync();
         }
 
         public void GoToHistoryPage()

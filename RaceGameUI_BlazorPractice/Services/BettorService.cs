@@ -8,9 +8,12 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         private readonly IBettorRepository _bettorRepository;
         private List<BettorViewModel>? _bettors;
 
-        public BettorService(IBettorRepository bettorRepository)
+        private IBetService _betService;
+
+        public BettorService(IBettorRepository bettorRepository, IBetService betService)
         {
             _bettorRepository = bettorRepository;
+            _betService = betService;
         }
 
         public Task<List<BettorViewModel>> GetBettorsAsync()
@@ -31,8 +34,8 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         {
             foreach (var bettor in _bettors)
             {
-                //    // check if zero as not to overwrite handplaced bets
-                //    bettor.PlaceRandomBet();
+                // check if zero as not to overwrite handplaced bets
+                bettor.MyBet = _betService.GetRandomBet(bettor);
             }
         }
 
