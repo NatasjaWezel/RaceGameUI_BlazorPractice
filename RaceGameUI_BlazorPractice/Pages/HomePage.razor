@@ -18,6 +18,7 @@
         <div style="background:green" class="col box">
             @foreach (var hound in greyHounds)
             {
+                <div style="display:inline-block;width:5%">@hound.Name</div>
                 <div style="display:inline-block;width:@hound.GetPercentage()%">&nbsp;</div>
                 <div style="display:inline-block"><img height=40 src="images/greyhoundracing.png"/></div>
                 <div style="display:inline-block" hidden="@hound.hideMedal1"><img height=40 src="images/olympic-medal-1st-place.png"/></div>

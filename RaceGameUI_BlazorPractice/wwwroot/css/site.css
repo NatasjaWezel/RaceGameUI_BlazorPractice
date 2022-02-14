@@ -37,22 +37,6 @@ table, th, td {
     border-collapse: collapse;
 }
 
-.cell-1 {
-    background: deepskyblue;
-}
-
-.cell-2 {
-    background: orangered;
-}
-
-.cell-3 {
-    background: royalblue;
-}
-
-.cell-4 {
-    background: gold;
-}
-
 h1:focus {
     outline: none;
 }
