@@ -20,22 +20,24 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
         public async void SimulateRace()
         {
-            _greyHounds.TakeDogsToStart();
+            await _greyHounds.TakeDogsToStart();
             int dogNumber = 0;
             Debug.Print("Now running simulation #" + raceNumber);
 
             while (!raceEnded)
             {
                 await _greyHounds.RunAsync(dogNumber);
+                await Task.Delay(5);
 
-                Thread.Sleep(5);
                 dogNumber++;
-                raceEnded = _greyHounds.AreDogsFinished();
+                raceEnded = await _greyHounds.AreDogsFinished();
+
             }
 
             raceNumber++;
 
         }
+
 
         //public void SimulateStep(int dogNumber)
         //{

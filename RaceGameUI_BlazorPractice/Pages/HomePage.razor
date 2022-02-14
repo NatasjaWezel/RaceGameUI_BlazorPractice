@@ -2,6 +2,9 @@
 @using RaceGameUI_BlazorPractice.Web.Models
 @using RaceGameUI_BlazorPractice.Web.Services
 @using System.Diagnostics
+
+@implements IDisposable
+
 @inject NavigationManager _navigationManager
 @inject IRaceTrackService _raceTrackService
 @inject IBettorService _bettorService
@@ -49,7 +52,7 @@
                                 <td><p>-</p></td>
                             } else {
                                 <td><p>@bettor.MyBet.Amount</p></td>
-                                <td><p>@_greyHoundService.GetGreyHound(bettor.MyBet.DogId).Name</p></td>
+                                <td><p>@_greyHoundService.GetGreyHoundName(bettor.MyBet.DogId)</p></td>
                             }
                             @if (bettor.CurrentCash - bettor.StartingCash > 0)
                             {
@@ -126,17 +129,18 @@
         bettors = await _bettorService.GetBettorsAsync();
         _selectedBettorName = bettors[0].Name;
         greyHounds = await _greyHoundService.GetGreyHoundsAsync();
+
+        _greyHoundService.OnDogStep += () => InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        _greyHoundService.OnDogStep -= () => InvokeAsync(StateHasChanged);
     }
 
     public async void StartRace()
     {
-        // start race
-        _raceTrackService.SimulateRace();
-        // when ended, calculate bet results
-    }
-
-    public async Task ResetRace()
-    {
+        await Task.Run(_raceTrackService.SimulateRace);
     }
 
     public async void PlaceRandomBet()
