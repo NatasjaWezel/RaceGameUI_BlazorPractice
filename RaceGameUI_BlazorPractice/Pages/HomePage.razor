@@ -1,6 +1,11 @@
 ﻿@page "/"
 @using RaceGameUI_BlazorPractice.Web.Models
 @using RaceGameUI_BlazorPractice.Web.Services
+@using System.Diagnostics
+@inject NavigationManager _navigationManager
+@inject IRaceTrackService _raceTrackService
+@inject IBettorService _bettorService
+@inject IGreyHoundService _greyHoundService
 
 <PageTitle>HomePage</PageTitle>
 
@@ -21,17 +26,17 @@
   </div>
 
   <div class="row">
-              <div class="col box">
+     <div class="col box col-sm-5">
             <h3>Betting stats</h3>
             <div style='overflow-y:auto'>            
                 <table class="table">
                 <tr>
-                    <th>Name</th>
-                    <th>Starting Capital</th>
-                    <th>Current Capital</th>
-                    <th>Bet Amount</th>
-                    <th>Dog</th>
-                    <th>Profit</th>
+                    <th> Name </th>
+                    <th> Starting Capital </th>
+                    <th> Current Capital </th>
+                    <th> Bet Amount </th>
+                    <th> Greyhound </th>
+                    <th> Profit </th>
                 </tr>
                     @foreach (var bettor in bettors)
                     {
@@ -39,9 +44,13 @@
                             <td><p>@bettor.Name</p></td>
                             <td><p>@bettor.StartingCash</p></td>
                             <td><p>@bettor.CurrentCash</p></td>
-                            <td><p>@bettor.MyBet.GetAmount()</p></td>
-                            <td><p>@bettor.MyBet.GetDogNumber()</p></td>
-
+                            @if (@bettor.MyBet == null) {
+                                <td><p>-</p></td>
+                                <td><p>-</p></td>
+                            } else {
+                                <td><p>@bettor.MyBet.Amount</p></td>
+                                <td><p>@_greyHoundService.GetGreyHound(bettor.MyBet.DogId).Name</p></td>
+                            }
                             @if (bettor.CurrentCash - bettor.StartingCash > 0)
                             {
                                 <td><p style="color:green">+ @(bettor.CurrentCash - bettor.StartingCash)</p></td>
@@ -61,14 +70,14 @@
             <button type="button" class="btn btn-secondary btn-sm" @onclick="PlaceRandomBet">Fill with random bets</button>
             <button type="button" class="btn btn-secondary btn-sm" @onclick="GoToHistoryPage">See history</button>
         </div>
-    <div class="col">
-           <div class="row box">
+    <div class="col box">
+           <div class="row">
                <h3>Place your bet!</h3>
                 <p style="display:inline-block">Betting amount has to be between @BetService.minBet and @BetService.maxBet</p>
 
                 <div class="linecontainer">
                     <div style="width:20%;display:inline">                
-                        <select name="bettors" id="bettors">
+                        <select name="bettors" id="bettors" @bind="@_selectedBettorName">
                             @foreach (var bettor in bettors)
                             {
                                 <option value=@bettor.Name>@bettor.Name</option>
@@ -78,12 +87,12 @@
 
                     <div style="width:20%;display:inline">
                         <label for="quantity">bets</label>
-                        <input style="width:15%" type="number" id="quantity" min=0 max=100>
+                        <input style="width:15%" type="number" id="quantity" min=5 max=15 @bind="@_selectedBetAmount">
                     </div>
 
                     <div style="width:25%;display:inline">
                         <label for="dogs">bucks on dog:</label>
-                        <select name="dogs" id="dogs">
+                        <select name="dogs" id="dogs" @bind="@_selectedGreyHoundId">
                             @foreach (var hound in greyHounds)
                             {
                                 <option value=@hound.Id>@hound.Name</option>
@@ -94,24 +103,6 @@
                 
                 <button class="btn btn-secondary btn-sm" @onclick="PlaceBet">Place bet</button>
            </div>
-           <div class="row box">
-                <h3>Join in on the fun!</h3>
-                <p style="display:inline-block">Add a bettor here. Investment can be between @RaceTrackService.minInvestment and @RaceTrackService.maxInvestment.</p>
-
-                <div style="width:20%;display:inline">
-                    <label for="NewPlayerName">Name: </label>
-                    <input type="text" id="NewPlayerName" @bind="@newPlayerName">
-                </div>
-
-                <div style="width:20%;display:inline">
-                    <label for="newPlayerStartCash"> Starting Cash:</label>
-                    <input type="number" id="NewPlayerStartCash" @bind="@newPlayerStartCash" 
-                        min=@RaceTrackService.minInvestment max=@RaceTrackService.maxInvestment>
-                </div>
-
-                <br />
-                <button class="btn btn-secondary btn-sm" @onclick="CreateBettor">Add player</button>
-           </div>
     </div>
 
     <div class="col box">
@@ -120,3 +111,49 @@
 
 </div>
 </div>
+
+@code {
+    private List<BettorViewModel>? bettors;
+    private List<GreyHoundViewModel>? greyHounds;
+
+    // to place bets
+    private string _selectedBettorName = "";
+    private int _selectedGreyHoundId;
+    private int _selectedBetAmount = 5;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bettors = await _bettorService.GetBettorsAsync();
+        _selectedBettorName = bettors[0].Name;
+        greyHounds = await _greyHoundService.GetGreyHoundsAsync();
+    }
+
+    public async void StartRace()
+    {
+        // start race
+        _raceTrackService.SimulateRace();
+        // when ended, calculate bet results
+    }
+
+    public async Task ResetRace()
+    {
+    }
+
+    public async void PlaceRandomBet()
+    {
+        await _bettorService.PlaceRandomBetsAsync();
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    public void GoToHistoryPage()
+    {
+        _navigationManager.NavigateTo("bet_history");
+    }
+
+    public async void PlaceBet()
+    {
+        Debug.Print($"{_selectedBettorName} places {_selectedBetAmount} on dog id: {_selectedGreyHoundId} !");
+
+        await _bettorService.PlaceBetAsync(_selectedBettorName, _selectedGreyHoundId, _selectedBetAmount);
+    }
+}   

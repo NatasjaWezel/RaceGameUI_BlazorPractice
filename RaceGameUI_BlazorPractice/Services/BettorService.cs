@@ -1,5 +1,6 @@
 ﻿using RaceGameUI_BlazorPractice.Web.Models;
 using RaceGameUI_BlazorPractice.Dal;
+using System.Diagnostics;
 
 namespace RaceGameUI_BlazorPractice.Web.Services
 {
@@ -9,11 +10,13 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         private List<BettorViewModel>? _bettors;
 
         private IBetService _betService;
+        private IGreyHoundService _greyHoundService;
 
-        public BettorService(IBettorRepository bettorRepository, IBetService betService)
+        public BettorService(IBettorRepository bettorRepository, IBetService betService, IGreyHoundService greyHoundService)
         {
             _bettorRepository = bettorRepository;
             _betService = betService;
+            _greyHoundService = greyHoundService;
         }
 
         public Task<List<BettorViewModel>> GetBettorsAsync()
@@ -32,16 +35,28 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
         public async Task PlaceRandomBetsAsync()
         {
-            foreach (var bettor in _bettors)
+            foreach (var bettor in await GetBettorsAsync())
             {
-                // check if zero as not to overwrite handplaced bets
-                bettor.MyBet = _betService.GetRandomBet(bettor);
+                if (bettor.MyBet == null)
+                {
+                    Debug.Print("Placing random bet for: " + bettor.Name);
+                    bettor.MyBet = await _betService.GetRandomBet(bettor);
+                } else
+                {
+                    Debug.Print(bettor.Name + "already placed a bet.");
+                }
             }
         }
 
-        public async Task PlaceBetAsync()
+        public async Task PlaceBetAsync(string name, int dogNumber, int amount)
         {
-
+            foreach (var bettor in await GetBettorsAsync())
+            {
+                if (bettor.Name == name)
+                {
+                    bettor.MyBet = _betService.GetBet(bettor, _greyHoundService.GetGreyHound(dogNumber), amount);
+                }
+            }
         }
 
         public void CalculateBetResult(int winningDogNumber)

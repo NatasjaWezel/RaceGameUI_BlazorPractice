@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice.Dal", "RaceGameUI_BlazorPractice.DAL\RaceGameUI_BlazorPractice.Dal.csproj", "{627B7355-67C8-4A96-8010-C05739DDFCD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceGameUI_BlazorPractice.Model", "RaceGameUI_BlazorPractice.Model\RaceGameUI_BlazorPractice.Model.csproj", "{5DE4AB7C-5839-4B82-9474-6306D102819F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceGameUI_BlazorPractice.Model", "RaceGameUI_BlazorPractice.Model\RaceGameUI_BlazorPractice.Model.csproj", "{5DE4AB7C-5839-4B82-9474-6306D102819F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

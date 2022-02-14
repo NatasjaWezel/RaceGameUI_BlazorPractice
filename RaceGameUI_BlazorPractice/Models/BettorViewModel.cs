@@ -8,11 +8,6 @@ namespace RaceGameUI_BlazorPractice.Web.Models
         public int StartingCash { get; set; }
         public int CurrentCash { get; set; }
 
-        public BetViewModel MyBet;
-
-        public BettorViewModel()
-        {
-            MyBet = new BetViewModel();
-        }
+        public BetViewModel? MyBet = null;
     }
 }

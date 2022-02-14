@@ -1,11 +1,12 @@
 ﻿using RaceGameUI_BlazorPractice.Web.Models;
+using System.Diagnostics;
 
 namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public class BetService: IBetService
     {
         public static int minBet = 5;
-        public static int maxBet = 1000;
+        public static int maxBet = 15;
 
         private IGreyHoundService _greyHoundService;
 
@@ -14,25 +15,26 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             _greyHoundService = greyHoundService;
         }
 
-        public BetViewModel GetBet(BettorViewModel bettor, int dogNumber, int investment)
+        public BetViewModel? GetBet(BettorViewModel bettor, GreyHoundViewModel greyHound, int investment)
         {
             if (investment <= bettor.CurrentCash)
             {
-                return new BetViewModel(dogNumber, investment);
+                return new BetViewModel(greyHound.Id, investment);
             }
-            return new BetViewModel();
+            return null;
         }
 
-        public BetViewModel GetRandomBet(BettorViewModel bettor)
+        public async Task<BetViewModel?> GetRandomBet(BettorViewModel bettor)
         {
             Random rand = new Random();
             if (bettor.CurrentCash >= RaceTrackService.minInvestment)
             {
-                return GetBet(bettor,
-                         rand.Next(RaceTrackService.minInvestment, bettor.CurrentCash), 
-                         rand.Next(1, _greyHoundService.GetGreyHounds().Count));
+                return await Task.Run(() => GetBet(bettor,
+                                                    _greyHoundService.GetGreyHound(rand.Next(1, 8)),
+                                                    rand.Next(RaceTrackService.minInvestment, RaceTrackService.maxInvestment)));
             }
-            return new BetViewModel();
+            Debug.Print($"GetRandomBet returns null {bettor.CurrentCash}, {RaceTrackService.minInvestment}");
+            return null;
         }
 
         //    public void Collect(int WinnerDogNumber)

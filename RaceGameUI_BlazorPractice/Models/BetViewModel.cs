@@ -2,67 +2,23 @@
 {
     public class BetViewModel
     {
-        private int _amount;
-        private int _dogNumber;
+        public int Amount { get; }
+        public int DogId { get; }
 
-        public BetViewModel()
+        public BetViewModel(int dognumber, int amount)
         {
-            _amount = 0;
-            _dogNumber = -1;
-        }
-
-        public BetViewModel(int amount, int dognumber)
-        {
-            _amount = amount;
-            _dogNumber = dognumber;
-        }
-
-        //public string GetDescription()
-        //{
-        //    if (_amount == 0 && _hasPreviousBet)
-        //    {
-        //        return _bettor.GetName() + " can't place bets anymore.";
-        //    }
-        //    else if (_amount == 0)
-        //    {
-        //        return _bettor.GetName() + " hasn't placed a bet yet.";
-        //    }
-        //    _hasPreviousBet = true;
-        //    return _bettor.GetName() + " betted " + _amount.ToString() + " on dog number: " + _dogNumber.ToString();
-        //}
-
-        public void Clear()
-        {
-            _amount = 0;
-            _dogNumber = -1;
-        }
-
-        public string GetAmount()
-        {
-            if (_amount == 0)
-            {
-                return "-";
-            }
-            return _amount.ToString();
-        }
-
-        public string GetDogNumber()
-        {
-            if (_dogNumber == -1)
-            {
-                return "-";
-            }
-            return _dogNumber.ToString();
+            DogId = dognumber;
+            Amount = amount;
         }
 
         public int PayOut(int WinningDogNumber)
         {
-            if (WinningDogNumber == _dogNumber)
+            if (WinningDogNumber == DogId)
             {
-                return _amount;
+                return Amount;
             }
 
-            return -_amount;
+            return -Amount;
         }
     }
 }

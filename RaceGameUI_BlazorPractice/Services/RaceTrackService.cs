@@ -5,8 +5,8 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public class RaceTrackService: IRaceTrackService
     {
-        public static int minInvestment = 50;
-        public static int maxInvestment = 500000;
+        public static int minInvestment = 5;
+        public static int maxInvestment = 15;
         public static int trackLength = 100;
         public int raceNumber = 0;
         public bool raceEnded = false;

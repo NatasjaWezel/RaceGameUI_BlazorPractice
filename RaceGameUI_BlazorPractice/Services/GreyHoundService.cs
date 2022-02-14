@@ -6,7 +6,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
     public class GreyHoundService : IGreyHoundService
     {
         private readonly IGreyHoundRepository _greyHoundRepository;
-        public List<GreyHoundViewModel>? GreyHounds;
+        public List<GreyHoundViewModel>? _greyHounds;
 
         private Random _random;
         
@@ -18,21 +18,16 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         
         public Task<List<GreyHoundViewModel>> GetGreyHoundsAsync()
         {
-            if (GreyHounds == null)
+            if (_greyHounds == null)
             {
                 // the repo in .dal gets the data
                 var entityModel = _greyHoundRepository.GetGreyHounds("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\Data\\greyhounds.csv");
 
                 // map to gui model
-                GreyHounds = entityModel.Select(m => new GreyHoundViewModel { Id = m.Id, Name = m.Name}).ToList();
+                _greyHounds = entityModel.Select(m => new GreyHoundViewModel { Id = m.Id, Name = m.Name}).ToList();
             }
 
-            return Task.FromResult(GreyHounds);
-        }
-
-        public List<GreyHoundViewModel> GetGreyHounds()
-        {
-            return GreyHounds;
+            return Task.FromResult(_greyHounds);
         }
 
         public async Task RunAsync(int whichDog)
@@ -40,7 +35,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             // run between 1 and 4 spaces at random
             int addToPos = _random.Next(1, 5);
 
-            var hound = GreyHounds[whichDog % GreyHounds.Count];
+            var hound = _greyHounds[whichDog % _greyHounds.Count];
 
             // make sure hound doesn't run further than the finish
             if (hound.CurrentPosition + addToPos >= RaceTrackService.trackLength)
@@ -56,7 +51,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
         public bool AreDogsFinished()
         {
-            foreach (var hound in GreyHounds)
+            foreach (var hound in _greyHounds)
             {
                 if (!hound.finished)
                 {
@@ -69,7 +64,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
         public void TakeDogsToStart()
         {
-            foreach (var hound in GreyHounds)
+            foreach (var hound in _greyHounds)
             {
                 hound.CurrentPosition = 0;
                 hound.finished = false;
@@ -77,6 +72,11 @@ namespace RaceGameUI_BlazorPractice.Web.Services
                 hound.hideMedal2 = true;
                 hound.hideMedal3 = true;
             }
+        }
+
+        public GreyHoundViewModel GetGreyHound(int id)
+        {
+            return _greyHounds[id];
         }
     }
 }
