@@ -54,7 +54,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             {
                 if (bettor.Name == name)
                 {
-                    bettor.MyBet = _betService.GetBet(bettor, _greyHoundService.GetGreyHound(dogNumber), amount);
+                    bettor.MyBet = _betService.GetBet(bettor, await _greyHoundService.GetGreyHound(dogNumber), amount);
                 }
             }
         }
