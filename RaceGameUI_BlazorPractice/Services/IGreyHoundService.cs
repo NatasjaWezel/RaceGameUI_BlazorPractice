@@ -1,15 +1,18 @@
-﻿using RaceGameUI_BlazorPractice.Web.Models;
+﻿using Microsoft.AspNetCore.Components;
+using RaceGameUI_BlazorPractice.Web.Models;
 
 namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public interface IGreyHoundService
     {
         Task<List<GreyHoundViewModel>> GetGreyHoundsAsync();
-        GreyHoundViewModel GetGreyHound(int id);
+        Task<GreyHoundViewModel> GetGreyHound(int id);
+        string GetGreyHoundName(int id);
+        public event Action? OnDogStep;
 
         Task RunAsync(int dogNumber);
 
-        bool AreDogsFinished();
-        void TakeDogsToStart();
+        Task<bool> AreDogsFinished();
+        Task TakeDogsToStart();
     }
 }
