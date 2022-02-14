@@ -29,8 +29,8 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             Random rand = new Random();
             if (bettor.CurrentCash >= RaceTrackService.minInvestment)
             {
-                return await Task.Run(() => GetBet(bettor,
-                                                    _greyHoundService.GetGreyHound(rand.Next(1, 8)),
+                var hound = await _greyHoundService.GetGreyHound(rand.Next(1, 8));
+                return await Task.Run(() => GetBet(bettor, hound,
                                                     rand.Next(RaceTrackService.minInvestment, RaceTrackService.maxInvestment)));
             }
             Debug.Print($"GetRandomBet returns null {bettor.CurrentCash}, {RaceTrackService.minInvestment}");
