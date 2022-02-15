@@ -28,7 +28,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             {
                 var hound = await _greyHoundService.GetGreyHound(rand.Next(1, 8));
                 return await Task.Run(() => GetBet(bettor, hound,
-                                                    rand.Next(RaceTrackService.minInvestment, bettor.CurrentCash)));
+                                                    rand.Next(RaceTrackService.minInvestment, Math.Min(bettor.CurrentCash, RaceTrackService.maxInvestment))));
             }
             return null;
         }

@@ -89,7 +89,7 @@
 
                     <div style="width:20%;display:inline">
                         <label for="quantity">bets</label>
-                        <input style="width:15%" type="number" id="quantity" min=5 max=15 @bind="@_selectedBetAmount">
+                        <input style="width:15%" type="number" id="quantity" min=@RaceTrackService.minInvestment max=@RaceTrackService.maxInvestment @bind="@_selectedBetAmount">
                     </div>
 
                     <div style="width:25%;display:inline">
