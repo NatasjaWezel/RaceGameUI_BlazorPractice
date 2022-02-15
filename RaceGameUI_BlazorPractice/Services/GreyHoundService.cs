@@ -25,7 +25,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         {
             if (_greyHounds == null)
             {
-                var entityModel = _greyHoundRepository.GetGreyHounds(@"C:\Users\UNATWE\OneDrive - Van Lanschot Kempen\Documents\RaceGameUI_BlazorPractice\RaceGameUI_BlazorPractice.Dal\Data\greyhounds.csv");
+                var entityModel = _greyHoundRepository.GetGreyHounds(@"..\RaceGameUI_BlazorPractice.Dal\Data\greyhounds.csv");
                 _greyHounds = entityModel.Select(m => new GreyHoundViewModel { Id = m.Id, 
                                                                                Name = m.Name,
                                                                                initialPosition = m.initialPosition,

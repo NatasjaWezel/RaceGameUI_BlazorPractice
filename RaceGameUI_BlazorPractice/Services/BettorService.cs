@@ -23,7 +23,7 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         {
             if (_bettors == null)
             {
-                var entityModel = _bettorRepository.GetBettors("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\Data\\bettors.csv");
+                var entityModel = _bettorRepository.GetBettors(@"..\RaceGameUI_BlazorPractice.Dal\Data\bettors.csv");
                 _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash }).ToList();
             }
 
