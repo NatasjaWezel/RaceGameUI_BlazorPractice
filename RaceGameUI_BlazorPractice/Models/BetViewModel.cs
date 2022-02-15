@@ -10,15 +10,5 @@
             DogId = dognumber;
             Amount = amount;
         }
-
-        public int PayOut(int WinningDogNumber)
-        {
-            if (WinningDogNumber == DogId)
-            {
-                return Amount;
-            }
-
-            return -Amount;
-        }
     }
 }

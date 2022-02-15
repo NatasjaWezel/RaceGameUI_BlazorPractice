@@ -8,21 +8,24 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         public static int minInvestment = 5;
         public static int maxInvestment = 15;
         public static int trackLength = 100;
+        public int noDogsFinished = 0;
         public int raceNumber = 0;
         public bool raceEnded = false;
 
         private readonly IGreyHoundService _greyHounds;
+        private readonly IBettorService _bettors;
 
-        public RaceTrackService(IGreyHoundService GreyHoundService)
+        public RaceTrackService(IGreyHoundService GreyHoundService, IBettorService bettors)
         {
             _greyHounds = GreyHoundService;
+            _bettors = bettors;
         }
 
-        public async void SimulateRace()
+        public async Task SimulateRace()
         {
-            await _greyHounds.TakeDogsToStart();
+            await ResetRace();
             int dogNumber = 0;
-            Debug.Print("Now running simulation #" + raceNumber);
+            Debug.Print($"Simulating race #{raceNumber}");
 
             while (!raceEnded)
             {
@@ -31,45 +34,20 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 
                 dogNumber++;
                 raceEnded = await _greyHounds.AreDogsFinished();
-
             }
-
+            await Payout();
             raceNumber++;
-
         }
 
+        public async Task Payout()
+        {
+            await _bettors.CollectPayout();
+        }
 
-        //public void SimulateStep(int dogNumber)
-        //{
-        //    GreyHoundViewModel hound = LocalData.hounds[dogNumber];
-
-        //    if (!hound.finished)
-        //    {
-        //        hound.Run();
-
-        //        if (hound.GetCurrentPosition() >= _trackLength)
-        //        {
-        //            hound.finished = true;
-
-        //            if (this.houndsFinished == 0)
-        //            {
-        //                hound.hideMedal1 = false;
-        //                this.houndsFinished++;
-        //            }
-        //            else if (this.houndsFinished == 1)
-        //            {
-        //                hound.hideMedal2 = false;
-        //                this.houndsFinished++;
-        //            }
-        //            else if (this.houndsFinished == 2)
-        //            {
-        //                hound.hideMedal3 = false;
-        //                this.houndsFinished++;
-        //            }
-
-        //        }
-        //    }
-        //}
-
+        public async Task ResetRace()
+        {
+            raceEnded = false;
+            await _greyHounds.TakeDogsToStart();
+        }
     }
 }

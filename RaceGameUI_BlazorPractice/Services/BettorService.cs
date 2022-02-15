@@ -4,13 +4,13 @@ using System.Diagnostics;
 
 namespace RaceGameUI_BlazorPractice.Web.Services
 {
-    public class BettorService: IBettorService
+    public class BettorService : IBettorService
     {
         private readonly IBettorRepository _bettorRepository;
         private List<BettorViewModel>? _bettors;
 
-        private IBetService _betService;
-        private IGreyHoundService _greyHoundService;
+        private readonly IBetService _betService;
+        private readonly IGreyHoundService _greyHoundService;
 
         public BettorService(IBettorRepository bettorRepository, IBetService betService, IGreyHoundService greyHoundService)
         {
@@ -23,11 +23,8 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         {
             if (_bettors == null)
             {
-                // the repo in .dal gets the data
                 var entityModel = _bettorRepository.GetBettors("C:\\Users\\UNATWE\\OneDrive - Van Lanschot Kempen\\Documents\\RaceGameUI_BlazorPractice\\RaceGameUI_BlazorPractice.Dal\\Data\\bettors.csv");
-
-                // map to gui model
-                _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash}).ToList();
+                _bettors = entityModel.Select(m => new BettorViewModel { Name = m.Name, StartingCash = m.StartingCash, CurrentCash = m.CurrentCash }).ToList();
             }
 
             return Task.FromResult(_bettors);
@@ -37,13 +34,18 @@ namespace RaceGameUI_BlazorPractice.Web.Services
         {
             foreach (var bettor in await GetBettorsAsync())
             {
+                // don't overwrite bets that are already placed
                 if (bettor.MyBet == null)
                 {
-                    Debug.Print("Placing random bet for: " + bettor.Name);
                     bettor.MyBet = await _betService.GetRandomBet(bettor);
-                } else
-                {
-                    Debug.Print(bettor.Name + "already placed a bet.");
+                    if (bettor.MyBet != null)
+                    {
+                        Debug.Print($"Placing a random bet for {bettor.Name}: {bettor.MyBet.Amount} bucks on {bettor.MyBet.DogId}");
+                    } else
+                    {
+                        Debug.Print($"{bettor.Name} is broke and can't bet anymore.");
+                    }
+                    
                 }
             }
         }
@@ -59,13 +61,27 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             }
         }
 
-        public void CalculateBetResult(int winningDogNumber)
+        public async Task CollectPayout()
         {
-            //    foreach (var bettor in _bettors)
-            //    {
-            //        bettor.Collect(winningDogNumber);
-            //        bettor.ClearBet();
-            //    }
+            foreach (var bettor in await GetBettorsAsync())
+            {
+                if (bettor.MyBet != null)
+                {
+                    var hound = await _greyHoundService.GetGreyHound(bettor.MyBet.DogId);
+
+                    if (hound.finishPosition != null)
+                    {
+                        bettor.CurrentCash += (int)hound.finishPosition * bettor.MyBet.Amount;
+                    }
+                    else
+                    {
+                        bettor.CurrentCash -= bettor.MyBet.Amount;
+                    }
+
+                }
+                // reset bet
+                bettor.MyBet = null;
+            }
         }
-}
+    }
 }

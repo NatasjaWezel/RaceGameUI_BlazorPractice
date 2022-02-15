@@ -5,7 +5,6 @@
 
 @implements IDisposable
 
-@inject NavigationManager _navigationManager
 @inject IRaceTrackService _raceTrackService
 @inject IBettorService _bettorService
 @inject IGreyHoundService _greyHoundService
@@ -71,13 +70,12 @@
                 </table>
             </div>
 
-            <button type="button" class="btn btn-secondary btn-sm" @onclick="PlaceRandomBet">Fill with random bets</button>
-            <button type="button" class="btn btn-secondary btn-sm" @onclick="GoToHistoryPage">See history</button>
+            <button type="button" class="btn btn-secondary btn-sm" @onclick="PlaceRandomBets">Fill with random bets</button>
         </div>
     <div class="col box">
            <div class="row">
                <h3>Place your bet!</h3>
-                <p style="display:inline-block">Betting amount has to be between @BetService.minBet and @BetService.maxBet</p>
+                <p style="display:inline-block">Betting amount has to be between @RaceTrackService.minInvestment and @RaceTrackService.maxInvestment</p>
 
                 <div class="linecontainer">
                     <div style="width:20%;display:inline">                
@@ -111,6 +109,7 @@
 
     <div class="col box">
         <button type="button" class="btn btn-primary btn-lg" @onclick="StartRace">Start Race!!</button>
+        <button type="button" class="btn btn-primary btn-lg" @onclick="ResetRace">Reset Race!!</button>
     </div>
 
 </div>
@@ -142,17 +141,19 @@
     public async void StartRace()
     {
         await Task.Run(_raceTrackService.SimulateRace);
-    }
-
-    public async void PlaceRandomBet()
-    {
-        await _bettorService.PlaceRandomBetsAsync();
         await InvokeAsync(() => StateHasChanged());
     }
 
-    public void GoToHistoryPage()
+    public async void ResetRace()
     {
-        _navigationManager.NavigateTo("bet_history");
+        await Task.Run(_raceTrackService.ResetRace);
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    public async void PlaceRandomBets()
+    {
+        await _bettorService.PlaceRandomBetsAsync();
+        await InvokeAsync(() => StateHasChanged());
     }
 
     public async void PlaceBet()

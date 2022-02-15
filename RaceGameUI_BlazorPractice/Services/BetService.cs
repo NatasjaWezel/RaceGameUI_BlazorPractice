@@ -5,9 +5,6 @@ namespace RaceGameUI_BlazorPractice.Web.Services
 {
     public class BetService: IBetService
     {
-        public static int minBet = 5;
-        public static int maxBet = 15;
-
         private IGreyHoundService _greyHoundService;
 
         public BetService(IGreyHoundService greyHoundService)
@@ -31,16 +28,9 @@ namespace RaceGameUI_BlazorPractice.Web.Services
             {
                 var hound = await _greyHoundService.GetGreyHound(rand.Next(1, 8));
                 return await Task.Run(() => GetBet(bettor, hound,
-                                                    rand.Next(RaceTrackService.minInvestment, RaceTrackService.maxInvestment)));
+                                                    rand.Next(RaceTrackService.minInvestment, bettor.CurrentCash)));
             }
-            Debug.Print($"GetRandomBet returns null {bettor.CurrentCash}, {RaceTrackService.minInvestment}");
             return null;
         }
-
-        //    public void Collect(int WinnerDogNumber)
-        //    {
-        //        CurrentCash += MyBet.PayOut(WinnerDogNumber);
-        //    }
-
     }
 }

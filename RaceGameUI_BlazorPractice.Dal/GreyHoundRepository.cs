@@ -9,12 +9,13 @@ namespace RaceGameUI_BlazorPractice.Dal
             List<GreyHoundEntityModel> GreyHounds = new();
 
             var reader = new StreamReader(FileName);
-            var headerLine = reader.ReadLine();
+            
+            // skip header
+            reader.ReadLine();
 
             while (!reader.EndOfStream)
             {
-                var line = reader.ReadLine();
-                var values = line.Split(';');
+                var values = reader.ReadLine().Split(';');
 
                 GreyHounds.Add(new GreyHoundEntityModel()
                 {

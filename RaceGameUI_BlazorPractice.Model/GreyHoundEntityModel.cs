@@ -2,15 +2,17 @@
 {
     public class GreyHoundEntityModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
-        public readonly Random _randomizer;
+        public readonly Random? _randomizer;
 
         public int Id { get; set; }
  
-        public int InitialPosition = 0;
-        public int CurrentPosition = 0;
+        public int initialPosition = 0;
+        public int currentPosition = 0;
 
         public bool finished = false;
+        
+        public int? finishPosition = null;
     }
 }
